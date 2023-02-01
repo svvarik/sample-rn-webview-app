@@ -1,20 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { Button, StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { WebView } from "react-native-webview";
 
-export default function App() {
+function ScreenOne({ navigation }: any) {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Button
+        title="Go to ScreenTwo"
+        onPress={() => navigation.navigate("ScreenTwo")}
+      />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+function ScreenTwo() {
+  return (
+    <View style={{ flex: 1 }}>
+      <WebView style={{ margin: 50 }} source={require("./local.html")} />
+    </View>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="ScreenOne">
+        <Stack.Screen name="ScreenOne" component={ScreenOne} />
+        <Stack.Screen name="ScreenTwo" component={ScreenTwo} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+export default App;
